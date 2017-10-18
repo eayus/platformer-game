@@ -1,0 +1,65 @@
+#include <SFML/Graphics.hpp>
+#include <random>
+#include <functional>
+
+#include "Utils/Logging.hpp"
+#include "Level.hpp"
+#include <iostream>
+
+#include "TileSet.hpp"
+#include "ResourceManager.hpp"
+#include "Player.hpp"
+#include "FireBall.hpp"
+#include "Constants.hpp"
+
+
+int main() {
+
+    sf::RenderWindow window(sf::VideoMode(config::window_width, config::window_height), "My Game!");
+    window.setVerticalSyncEnabled(true);
+
+    TileSet tileset("Maps/tileset.tsx");
+    Level level("Maps/map.tmx", &tileset);
+
+    std::default_random_engine gen;
+    std::uniform_int_distribution<int> distX(0, 1500);
+    auto rainX = std::bind(distX, gen);
+
+    sf::Texture* rainTex = ResourceManager::getTexture("Assets/Rain.png");
+    sf::Sprite rainSprite(*rainTex);
+    std::vector<sf::Vector2f> rains;
+    
+    while (window.isOpen()) {
+
+        sf::Event ev;
+        while (window.pollEvent(ev)) {
+
+            if (ev.type == sf::Event::Closed)
+                window.close();
+
+        }
+
+        window.clear(sf::Color::White);
+        
+
+        //window.draw(bg);
+        level.update();
+        level.render(window);
+        
+        rains.push_back(sf::Vector2f(rainX(), 0));
+        
+        rains.erase(std::remove_if(rains.begin(), rains.end(), [](auto& rain) {
+            return (rain.x < 0 || rain.y > 640);
+        } ), rains.end());
+
+        for (auto& rain : rains) {
+            rain += sf::Vector2f(-2, 8);
+            rainSprite.setPosition(rain);
+            window.draw(rainSprite);
+        }
+
+        window.display();
+
+    }
+
+}
