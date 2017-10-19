@@ -38,15 +38,15 @@ Level::Level(const char* tmxFilepath, TileSet* tileSet):
 
     for (pugi::xml_node tile = data.child("tile"); tile; tile = tile.next_sibling("tile")) {
        
-	int tileID = std::stoi(tile.attribute("gid").value());
+        std::string tileStr(tile.attribute("gid").value());
 
-        if (tileID == 0) {
+        if (tileStr == "") {
             
             m_map.at(y).push_back(nullptr);
 
         } else {
 
-        	m_map.at(y).push_back(&m_tileSet->tiles.at(tileID - 1));
+        	m_map.at(y).push_back(&m_tileSet->tiles.at(std::stoi(tileStr) - 1));
 
         }
 
