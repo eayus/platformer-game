@@ -1,7 +1,0 @@
-out_file = Bin/Main
-flags = -std=c++14 -Wall -pedantic -g -lsfml-graphics -lsfml-window -lsfml-system -lpugixml
-
-rule cc
-    command = clang++ -o $out $in $flags
-
-build $out_file: cc Source/Main.cpp Source/Animation.cpp Source/Utils/Logging.cpp Source/Player.cpp Source/ResourceManager.cpp Source/GameObject.cpp Source/Tile.cpp Source/Level.cpp Source/TileSet.cpp Source/AABB.cpp Source/FireBall.cpp Source/Camera.cpp 
