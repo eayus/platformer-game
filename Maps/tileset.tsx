@@ -10,7 +10,7 @@
  <tile id="6" type="Solid"/>
  <tile id="7" type="Empty"/>
  <tile id="8" type="Empty"/>
- <tile id="9" type="Empty"/>
+ <tile id="9" type="Solid"/>
  <tile id="10" type="Solid"/>
  <tile id="11" type="Solid"/>
  <tile id="12" type="Solid"/>
