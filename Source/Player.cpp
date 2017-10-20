@@ -179,7 +179,7 @@ void Player::update() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 
 	sf::Vector2i playerPos = this->getBoundingBox().getCenter();
-    	m_level->createObject(std::move(std::make_unique<FireBall>(sf::Vector2i(playerPos.x + 3, playerPos.y - 8), sf::Vector2i(5, 0), m_level)));
+    	m_level->createObject(std::make_unique<FireBall>(sf::Vector2i(playerPos.x + 3, playerPos.y - 8), sf::Vector2i(5, 0), m_level));
 
     }
 

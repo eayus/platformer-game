@@ -16,7 +16,7 @@ private:
     int m_levelWidth;
     int m_levelHeight;
     const float m_xAllowance;
-    //int m_playerX;
+    int m_zoom;
     Player* m_player;
 
 };

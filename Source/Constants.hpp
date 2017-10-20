@@ -2,6 +2,6 @@
 
 namespace config {
 
-	const int window_width = 960;
-	const int window_height = 640;
+	const int window_width = 1920;
+	const int window_height = 1080;
 }

@@ -16,7 +16,7 @@ private:
     std::vector<sf::IntRect> m_frames;
     int m_frameDelay;
     int m_currentFrameDelay;
-    int m_currentFrame;
+    unsigned long m_currentFrame;
     bool m_isRunning;
     bool m_loop;
 
