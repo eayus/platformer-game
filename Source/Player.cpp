@@ -6,12 +6,15 @@
 #include "Enemy.hpp"
 
 Player::Player(sf::Vector2i position, Level* level):
-    GameObject(position, AABB(6, 0, 20, 32), level),
-    m_rightAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 64, 32, 32), sf::IntRect(32, 64, 32, 32), sf::IntRect(64, 64, 32, 32), sf::IntRect(32, 64, 32, 32) }, 20),
+    GameObject(position, AABB(10, 0, 44, 64), level),
+    m_rightAnim(ResourceManager::getTexture("Assets/FoxGirl.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 0, 64, 64) }, 100),
+    //m_rightAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 64, 32, 32), sf::IntRect(32, 64, 32, 32), sf::IntRect(64, 64, 32, 32), sf::IntRect(32, 64, 32, 32) }, 20),
     m_leftAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 32, 32, 32), sf::IntRect(32, 32, 32, 32), sf::IntRect(64, 32, 32, 32), sf::IntRect(32, 32, 32, 32) }, 20),
     m_currentAnim(&m_rightAnim),
     m_velocity(0, 0),
-    m_onGround(false) {
+    m_onGround(false),
+    m_dashTimer(0),
+    m_lastDirection(Direction::Right) {
 
 }
 
@@ -25,10 +28,15 @@ void Player::stepX() {
 
     if (m_velocity.x == 0) return;
 
-    if (m_velocity.x > 6)
-        m_velocity.x = 6;
-    else if (m_velocity.x < -6)
-        m_velocity.x = -6;
+    if (m_dashTimer == 0) {
+
+    if (m_velocity.x > 4)
+        m_velocity.x = 4;
+    else if (m_velocity.x < -4)
+        m_velocity.x = -4;
+
+    }
+
 
     AABB box = this->getBoundingBox();
 
@@ -68,9 +76,17 @@ void Player::stepX() {
 
     }
 
+    if (m_velocity.x == 0)
+	m_dashTimer = 0;
+
+
     m_position.x += m_velocity.x;
-    //m_velocity.x += m_velocity.x > 0 ? -1 : 1;
-    m_velocity.x = 0;
+    if (m_dashTimer == 0)
+	    m_velocity.x += m_velocity.x > 0 ? -2 : 2;
+    //m_velocity.x = 0;
+    
+    if (m_dashTimer > 0)
+	m_dashTimer--;
 
 }
 
@@ -170,11 +186,16 @@ void Player::update() {
     bool leftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
     bool rightPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
 
-    if (leftPressed)
+    if (m_dashTimer == 0) {
+    if (leftPressed) {
         m_velocity.x -= 4;
+	m_lastDirection = Direction::Left;
+    }
 
-    if (rightPressed)
+    if (rightPressed) {
         m_velocity.x += 4;
+	m_lastDirection = Direction::Right;
+    }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 
@@ -190,10 +211,21 @@ void Player::update() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && m_onGround)
         m_velocity.y -= 15;
 
-    if (m_velocity.x < 0)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+
+        // Dash code here...	
+	m_dashTimer = 30;
+
+	m_velocity.x = (m_lastDirection == Direction::Right) ? 10 : -10;
+
+    }
+    }
+
+    /*if (m_velocity.x < 0)
         m_currentAnim = &m_leftAnim;
     else
-        m_currentAnim = &m_rightAnim;
+        m_currentAnim = &m_rightAnim;*/
+    m_currentAnim = &m_rightAnim;
     
     this->stepX();
     this->stepY();

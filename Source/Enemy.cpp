@@ -3,7 +3,7 @@
 #include <iostream>
 
 Enemy::Enemy(sf::Vector2i position, Level* level):
-	GameObject(position, AABB(0, 0, 42, 90), level),
+	GameObject(position, AABB(0, 0, 42, 64), level),
 	m_sprite(*ResourceManager::getTexture("Assets/IceWitch.png")),
 	m_velocity(4, 0),
 	m_onGround(false),

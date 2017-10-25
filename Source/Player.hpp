@@ -2,6 +2,7 @@
 
 #include "GameObject.hpp"
 #include "Animation.hpp"
+#include "Direction.hpp"
 
 class Player : public GameObject
 {
@@ -22,5 +23,8 @@ private:
     bool m_onGround;
 
 	unsigned int m_shootDelay;
+	int m_dashTimer;
+
+	Direction m_lastDirection;
 
 };
