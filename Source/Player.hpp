@@ -6,12 +6,13 @@
 class Player : public GameObject
 {
 public:
-    Player(const sf::Vector2i& position, Level* level);
+    Player(sf::Vector2i position, Level* level);
     void draw(sf::RenderWindow& window) override;
     void update() override;
     void stepX();
     void stepY();
     void stepSlope();
+	void collided(GameObject* other) override;
     
 private:
     Animation m_rightAnim;
@@ -19,5 +20,7 @@ private:
     Animation* m_currentAnim;
     sf::Vector2i m_velocity;
     bool m_onGround;
+
+	unsigned int m_shootDelay;
 
 };

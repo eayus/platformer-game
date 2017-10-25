@@ -1,7 +1,7 @@
 #include "GameObject.hpp"
 #include "Level.hpp"
 
-GameObject::GameObject(const sf::Vector2i& position, const AABB& aabb, Level* level):
+GameObject::GameObject(sf::Vector2i position, AABB aabb, Level* level):
     m_position(position),
     m_aabb(aabb),
     m_level(level),
@@ -9,7 +9,7 @@ GameObject::GameObject(const sf::Vector2i& position, const AABB& aabb, Level* le
 
 }
 
-AABB GameObject::getBoundingBox() {
+AABB GameObject::getBoundingBox() const {
 
     AABB box = m_aabb;
 
@@ -20,8 +20,14 @@ AABB GameObject::getBoundingBox() {
 
 }
 
-bool GameObject::shouldDelete() {
+bool GameObject::shouldDelete() const {
 
     return m_shouldDelete;
+
+}
+
+void GameObject::setDelete() {
+
+	m_shouldDelete = true;
 
 }

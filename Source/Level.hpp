@@ -16,6 +16,7 @@ public:
     TileType getTileTypeAtCoord(int x, int y);
     int roundDownToTileSize(int num);
     void createObject(std::unique_ptr<GameObject> object);
+	std::vector<std::unique_ptr<GameObject>>& getObjects();
 
 
 private:

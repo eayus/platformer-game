@@ -3,8 +3,9 @@
 #include "ResourceManager.hpp"
 #include "FireBall.hpp"
 #include <iostream>
+#include "Enemy.hpp"
 
-Player::Player(const sf::Vector2i& position, Level* level):
+Player::Player(sf::Vector2i position, Level* level):
     GameObject(position, AABB(6, 0, 20, 32), level),
     m_rightAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 64, 32, 32), sf::IntRect(32, 64, 32, 32), sf::IntRect(64, 64, 32, 32), sf::IntRect(32, 64, 32, 32) }, 20),
     m_leftAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 32, 32, 32), sf::IntRect(32, 32, 32, 32), sf::IntRect(64, 32, 32, 32), sf::IntRect(32, 32, 32, 32) }, 20),
@@ -162,7 +163,6 @@ void Player::stepSlope() {
 
 }
 
-
 void Player::update() {
 
     m_currentAnim->update();
@@ -178,11 +178,14 @@ void Player::update() {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 
-	sf::Vector2i playerPos = this->getBoundingBox().getCenter();
-    	m_level->createObject(std::make_unique<FireBall>(sf::Vector2i(playerPos.x + 3, playerPos.y - 8), sf::Vector2i(5, 0), m_level));
+		sf::Vector2i playerPos = this->getBoundingBox().getCenter();
+		if (m_shootDelay > 100) {
+			m_level->createObject(std::make_unique<FireBall>(sf::Vector2i(playerPos.x + 3, playerPos.y - 8), sf::Vector2i(5, 0), m_level));
+			m_shootDelay = 0;
+		}
 
     }
-
+	m_shootDelay++;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && m_onGround)
         m_velocity.y -= 15;
@@ -195,5 +198,9 @@ void Player::update() {
     this->stepX();
     this->stepY();
     this->stepSlope();
+
+}
+
+void Player::collided(GameObject* other) {
 
 }

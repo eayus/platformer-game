@@ -74,6 +74,26 @@ void Level::update() {
     for (auto& ob : m_objects)
         ob->update();
 
+	for (auto& ob : m_objects) {
+	
+		if (ob->getBoundingBox().intersects(m_player.getBoundingBox())) {
+			ob->collided(&m_player);
+			m_player.collided(ob.get());
+		}
+
+		for (auto& ob2 : m_objects) {
+			
+			if (ob == ob2) continue;
+
+			if (ob->getBoundingBox().intersects(ob2->getBoundingBox())) {
+				ob->collided(ob2.get());
+				ob2->collided(ob.get());
+			}
+
+		}
+
+	}
+
     m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(),
             [](auto& ob) { return ob->shouldDelete(); }
         ), m_objects.end());
@@ -107,7 +127,7 @@ void Level::render(sf::RenderWindow& window) {
     for (auto& ob : m_objects)
         ob->draw(window);
 
-    m_player.draw(window);
+    if (!m_player.shouldDelete()) m_player.draw(window);
 
 }
 
@@ -138,5 +158,11 @@ int Level::roundDownToTileSize(int num) {
 void Level::createObject(std::unique_ptr<GameObject> object) {
 
 	m_objects.push_back(std::move(object));
+
+}
+
+std::vector<std::unique_ptr<GameObject>>& Level::getObjects() {
+
+	return m_objects;
 
 }

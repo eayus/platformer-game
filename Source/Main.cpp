@@ -11,6 +11,7 @@
 #include "Player.hpp"
 #include "FireBall.hpp"
 #include "Constants.hpp"
+#include "Enemy.hpp"
 
 
 int main() {
@@ -36,6 +37,15 @@ int main() {
 
             if (ev.type == sf::Event::Closed)
                 window.close();
+
+			if (ev.type == sf::Event::KeyPressed) {
+			
+				if (ev.key.code == sf::Keyboard::Escape)
+					window.close();
+
+				else if (ev.key.code == sf::Keyboard::U)
+					level.createObject(std::make_unique<Enemy>(sf::Vector2i(300, 300), &level));
+			}
 
         }
 

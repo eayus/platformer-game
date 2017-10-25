@@ -1,6 +1,6 @@
 #include "Animation.hpp"
 
-Animation::Animation(sf::Texture* texture, std::vector<sf::IntRect> frames, int frameDelay):
+Animation::Animation(sf::Texture* texture, const std::vector<sf::IntRect>& frames, int frameDelay):
     m_sprite(*texture),
     m_frames(std::move(frames)),
     m_frameDelay(frameDelay),
@@ -11,7 +11,7 @@ Animation::Animation(sf::Texture* texture, std::vector<sf::IntRect> frames, int 
 
 }
 
-void Animation::draw(sf::RenderWindow& window, const sf::Vector2i& position) {
+void Animation::draw(sf::RenderWindow& window, sf::Vector2i position) {
 
     m_sprite.setTextureRect(m_frames.at(m_currentFrame));
     m_sprite.setPosition(float(position.x), float(position.y));

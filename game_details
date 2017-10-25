@@ -13,6 +13,22 @@ Interactable NPCs during level gameplay.
 When it is raining maybe add puddles, which splash a little when you run through them.
 After losing to a boss they should taunt you.
 
+Player:
+	Can shafeshift into a wolf/fox.
+
+	Human:
+		Normal platformer physics
+
+	Fox:
+		Can do quick dash.
+
 Bosses:
 
     Tree guy. Transforms from a tree at the start of the fight. Summons natural units, such as trees. Surrounding is very overgrown, dark green. Maybe vines crawl along the ground to root you. Can summon large plants that do no damage but block your path from the ground.
+
+
+
+Ways of solving objects interacting problem:
+	1) Have different vectors of different object categories. A list of enemies, projectiles, etc.
+	2) Observer pattern
+	3) Casting

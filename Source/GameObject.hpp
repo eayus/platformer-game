@@ -8,11 +8,13 @@ class Level;
 class GameObject
 {
 public:
-    GameObject(const sf::Vector2i& position, const AABB& aabb, Level* level);
+    GameObject(sf::Vector2i position, AABB aabb, Level* level);
     virtual void draw(sf::RenderWindow& window) = 0;
     virtual void update() = 0;
-    AABB getBoundingBox();
-    bool shouldDelete();    
+    AABB getBoundingBox() const;
+    bool shouldDelete() const;
+	void setDelete();
+	virtual void collided(GameObject* other) = 0;
 
 protected:
     sf::Vector2i m_position;

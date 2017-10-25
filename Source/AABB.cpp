@@ -21,3 +21,9 @@ sf::Vector2i AABB::getCenter() {
     return sf::Vector2i(x + (w / 2), y + (h / 2));
 
 }
+
+bool AABB::intersects(const AABB& other) {
+
+	return !(x + w < other.x || other.x + other.w < x || y + h < other.y || other.y + other.h < y);
+
+}

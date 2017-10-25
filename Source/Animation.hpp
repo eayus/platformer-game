@@ -6,8 +6,8 @@
 class Animation
 {
 public:
-    Animation(sf::Texture* texture, std::vector<sf::IntRect> frames, int frameDelay);
-    void draw(sf::RenderWindow& window, const sf::Vector2i& position);
+    Animation(sf::Texture* texture, const std::vector<sf::IntRect>& frames, int frameDelay);
+    void draw(sf::RenderWindow& window, sf::Vector2i position);
     void update(); // called every frame
     void setLoop(bool loop);
 

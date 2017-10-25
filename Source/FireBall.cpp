@@ -1,6 +1,7 @@
 #include "FireBall.hpp"
 #include "ResourceManager.hpp"
 #include "Level.hpp"
+#include "Enemy.hpp"
 
 FireBall::FireBall(const sf::Vector2i& position, const sf::Vector2i& velocity, Level* level):
     GameObject(position, AABB(0, 0, 16, 16), level),
@@ -38,5 +39,16 @@ void FireBall::update() {
             m_shouldDelete = false;
 
     }
+
+}
+
+void FireBall::collided(GameObject* other) {
+
+	if (Enemy* e = dynamic_cast<Enemy*>(other)) {
+		
+		e->setDelete();
+		setDelete();
+
+	}
 
 }
