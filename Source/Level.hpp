@@ -28,7 +28,7 @@ private:
     std::vector<std::unique_ptr<GameObject>> m_objects;
     Player m_player;
 
-    sf::Sprite m_bg;
+    std::unique_ptr<sf::Sprite> m_bg;
     Camera m_camera;
 
 };

@@ -8,7 +8,7 @@ struct TileSet
     int tileSize; //only square tiles
     int width;
     int height;
-    sf::Sprite sprite;
+    std::unique_ptr<sf::Sprite> sprite;
     std::vector<Tile> tiles;
 };
 

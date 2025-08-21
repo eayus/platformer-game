@@ -3,6 +3,7 @@
 #include "FireBall.hpp"
 #include "ResourceManager.hpp"
 
+#include <algorithm>
 #include <pugixml.hpp>
 #include <iostream>
 
@@ -19,11 +20,10 @@ Level::Level(const char* tmxFilepath, TileSet* tileSet):
     m_tilesWide = std::stoi(doc.child("map").attribute("width").value());  
     m_tilesHigh = std::stoi(doc.child("map").attribute("height").value());
     
-
     for (pugi::xml_node property = doc.child("map").child("properties").child("property"); property; property = property.next_sibling("property")) {
 
         if (std::string(property.attribute("name").value()) == "background_img")
-		m_bg.setTexture(*ResourceManager::getTexture(property.attribute("value").value()));
+        m_bg = std::make_unique<sf::Sprite>(*ResourceManager::getTexture(property.attribute("value").value()));
 
     }
 
@@ -63,7 +63,7 @@ Level::Level(const char* tmxFilepath, TileSet* tileSet):
     m_objects.push_back(std::move(fireball));
 
     //Unhardcode this:
-    m_bg.setScale(sf::Vector2f(2.0f, 2.0f));
+    m_bg->setScale(sf::Vector2f(2.0f, 2.0f));
 
 }
 
@@ -108,17 +108,17 @@ void Level::render(sf::RenderWindow& window) {
     window.setView(*m_camera.getView());
      
     sf::Vector2f camPos = m_camera.getView()->getCenter();
-    m_bg.setPosition(0.5f * (camPos.x - 480.0f), 0);
-    window.draw(m_bg);
+    m_bg->setPosition({0.5f * (camPos.x - 480.0f), 0});
+    window.draw(*m_bg);
 
     for (int i = 0; i < m_tilesHigh; i++) {
 
         for (int j = 0; j < m_tilesWide; j++) {
 
             if (m_map.at(i).at(j) == nullptr) continue;
-            m_tileSet->sprite.setTextureRect(m_map.at(i).at(j)->textureRect);
-            m_tileSet->sprite.setPosition(j * m_tileSet->tileSize, i * m_tileSet->tileSize);
-            window.draw(m_tileSet->sprite); 
+            m_tileSet->sprite->setTextureRect(m_map.at(i).at(j)->textureRect);
+            m_tileSet->sprite->setPosition({(float)j * m_tileSet->tileSize, (float)i * m_tileSet->tileSize});
+            window.draw(*m_tileSet->sprite); 
 
         }
 

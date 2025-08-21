@@ -14,7 +14,7 @@ Animation::Animation(sf::Texture* texture, const std::vector<sf::IntRect>& frame
 void Animation::draw(sf::RenderWindow& window, sf::Vector2i position) {
 
     m_sprite.setTextureRect(m_frames.at(m_currentFrame));
-    m_sprite.setPosition(float(position.x), float(position.y));
+    m_sprite.setPosition(sf::Vector2f(float(position.x), float(position.y)));
     window.draw(m_sprite);
 
 }

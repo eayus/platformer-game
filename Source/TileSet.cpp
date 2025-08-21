@@ -24,7 +24,7 @@ TileSet::TileSet(const char* tsxFilepath) {
     textureFilepath += image.attribute("source").value();
     sf::Texture* tex = ResourceManager::getTexture(textureFilepath);
 
-    sprite.setTexture(*tex);
+    sprite = std::make_unique<sf::Sprite>(*tex);
 
     int x = 0;
     int y = 0;
@@ -48,7 +48,7 @@ TileSet::TileSet(const char* tsxFilepath) {
             Utils::log("[ERROR]: invadid tile type!");
         }
 
-        tiles.push_back(Tile(sf::IntRect(x, y, tileSize, tileSize), tiletype));
+        tiles.push_back(Tile(sf::IntRect({x, y}, {tileSize, tileSize}), tiletype));
 
         x += tileSize;
 

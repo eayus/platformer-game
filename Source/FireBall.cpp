@@ -2,11 +2,12 @@
 #include "ResourceManager.hpp"
 #include "Level.hpp"
 #include "Enemy.hpp"
+#include <SFML/System/Vector2.hpp>
 
 FireBall::FireBall(const sf::Vector2i& position, const sf::Vector2i& velocity, Level* level):
     GameObject(position, AABB(0, 0, 16, 16), level),
     m_velocity(velocity),
-    m_anim(ResourceManager::getTexture("Assets/FireBall.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 0, 16, 16) }, 20) {
+    m_anim(ResourceManager::getTexture("Assets/FireBall.png"), std::vector<sf::IntRect>{ sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(16, 16)) }, 20) {
 
 }
 

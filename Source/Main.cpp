@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <functional>
+#include <algorithm>
 
 #include "Utils/Logging.hpp"
 #include "Level.hpp"
@@ -16,7 +17,7 @@
 
 int main() {
 
-    sf::RenderWindow window(sf::VideoMode(config::window_width, config::window_height), "My Game!");
+    sf::RenderWindow window(sf::VideoMode({config::window_width, config::window_height}), "My Game!");
     window.setVerticalSyncEnabled(true);
 
     TileSet tileset("Maps/tileset.tsx");
@@ -32,18 +33,17 @@ int main() {
     
     while (window.isOpen()) {
 
-        sf::Event ev;
-        while (window.pollEvent(ev)) {
+        while (const auto ev = window.pollEvent()) {
 
-            if (ev.type == sf::Event::Closed)
+            if (ev->is<sf::Event::Closed>())
                 window.close();
 
-			if (ev.type == sf::Event::KeyPressed) {
+			if (const auto* keyPressed = ev->getIf<sf::Event::KeyPressed>()) {
 			
-				if (ev.key.code == sf::Keyboard::Escape)
+				if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 					window.close();
 
-				else if (ev.key.code == sf::Keyboard::U)
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::U)
 					level.createObject(std::make_unique<Enemy>(sf::Vector2i(300, 300), &level));
 			}
 

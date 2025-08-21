@@ -7,9 +7,9 @@
 
 Player::Player(sf::Vector2i position, Level* level):
     GameObject(position, AABB(10, 0, 44, 64), level),
-    m_rightAnim(ResourceManager::getTexture("Assets/FoxGirl.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 0, 64, 64) }, 100),
+    m_rightAnim(ResourceManager::getTexture("Assets/FoxGirl.png"), std::vector<sf::IntRect>{ sf::IntRect({0, 0}, {64, 64}) }, 100),
     //m_rightAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 64, 32, 32), sf::IntRect(32, 64, 32, 32), sf::IntRect(64, 64, 32, 32), sf::IntRect(32, 64, 32, 32) }, 20),
-    m_leftAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect(0, 32, 32, 32), sf::IntRect(32, 32, 32, 32), sf::IntRect(64, 32, 32, 32), sf::IntRect(32, 32, 32, 32) }, 20),
+    m_leftAnim(ResourceManager::getTexture("Assets/Player.png"), std::vector<sf::IntRect>{ sf::IntRect({0, 32}, {32, 32}), sf::IntRect({32, 32}, {32, 32}), sf::IntRect({64, 32}, {32, 32}), sf::IntRect({32, 32}, {32, 32}) }, 20),
     m_currentAnim(&m_rightAnim),
     m_velocity(0, 0),
     m_onGround(false),
@@ -183,8 +183,8 @@ void Player::update() {
 
     m_currentAnim->update();
 
-    bool leftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-    bool rightPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+    bool leftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A);
+    bool rightPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D);
 
     if (m_dashTimer == 0) {
     if (leftPressed) {
@@ -197,7 +197,7 @@ void Player::update() {
 	m_lastDirection = Direction::Right;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
 
 		sf::Vector2i playerPos = this->getBoundingBox().getCenter();
 		if (m_shootDelay > 100) {
@@ -208,10 +208,10 @@ void Player::update() {
     }
 	m_shootDelay++;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && m_onGround)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) && m_onGround)
         m_velocity.y -= 15;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F)) {
 
         // Dash code here...	
 	m_dashTimer = 30;
